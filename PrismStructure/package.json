@@ -1,0 +1,20 @@
+{
+  "name": "toolshop-prism-structure",
+  "version": "1.0.0",
+  "description": "Playwright (Prism-style POM) UI + API automation for the PracticeSoftwareTesting Toolshop QA AI Practical Assessment",
+  "private": true,
+  "scripts": {
+    "test": "playwright test",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:regression": "playwright test --grep @regression",
+    "test:ui": "playwright test tests/ui",
+    "test:api": "playwright test tests/api",
+    "report": "playwright show-report reports/html-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0",
+    "@faker-js/faker": "^9.0.0",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0"
+  }
+}
