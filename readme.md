@@ -1,14 +1,20 @@
 # Toolshop QA AI Practical Assessment
 
-Manual + UI + API testing of the [PracticeSoftwareTesting Toolshop](https://practicesoftwaretesting.com/) demo app, focused on registration/login and the browse -> cart -> Cash on Delivery checkout -> invoice flow (including the app's "confirm twice to generate invoice" behavior), plus the equivalent API lifecycle.
+## Project Overview
+Manual + UI + API testing of the [PracticeSoftwareTesting Toolshop](https://practicesoftwaretesting.com/) demo ecommerce app, built as an AI-assisted QA exercise. Scope: user registration/login (AC1) and the browse -> cart -> Cash-on-Delivery checkout -> invoice flow (AC2), including the app's documented "confirm twice to generate invoice" behavior, plus the equivalent API lifecycle (register -> login -> cart -> invoice). The process — requirement analysis, risk-based scoping, exploratory verification against the live app, automation, and debugging — is documented as it actually happened in `ai-prompts/`, not reconstructed after the fact.
 
 ## Project structure
 ```
 qa-ai-practical-assessment/
-├── FunctionalTestCase.csv       # manual test suite (8 cases, 7 verified live)
-├── PrismStructure/              # Playwright UI + API automation + execution reports
-├── project-info.md              # AI workflow write-up (Part A)
-├── readme.md                    # this file
+├── FunctionalTestCase.csv         # manual test suite (8 cases, 7 verified live, 1 real defect)
+├── api-test-scenarios.md          # API scenario bank + verified request/response shapes
+├── automation-opportunities.md    # what's automated, what's a good candidate, what should stay manual
+├── exploratory-testing-notes.md   # findings from hands-on live-app/API exploration
+├── defect-report.md               # DEFECT-01: invoice not retrievable after checkout confirmation
+├── tool-workflow.md               # short-form AI workflow summary (points to project-info.md)
+├── PrismStructure/                # Playwright UI + API automation + execution reports
+├── project-info.md                # AI workflow write-up (Part A, full form)
+├── readme.md                      # this file
 └── ai-prompts/
     ├── requirements-and-planning.md
     ├── test-design.md
@@ -41,7 +47,7 @@ Reports are written to `PrismStructure/reports/html-report` (HTML) and `PrismStr
 
 ## Current execution status
 - **API suite: 7/7 passing.** Executed and reports committed under `PrismStructure/reports/`.
-- **UI suite: code-complete, not executed in this environment.** The machine this project was built on blocks launching the downloaded Chromium binary via a Windows Application Control policy (`browserType.launch: spawn UNKNOWN`, root-caused down to `Start-Process` itself refusing to run `chrome.exe` — see `ai-prompts/automation-and-debugging.md`, Entry 4b for the full investigation). This is a machine/policy restriction, not a code issue — the same `npm run test:ui` should run normally on a developer machine or in CI. Every UI scenario the suite encodes was independently verified by hand against the live site first (see `ai-prompts/requirements-and-planning.md` Entry 4 and `ai-prompts/automation-and-debugging.md` Entries 2-3) before being automated, including a real defect found in the checkout->My Invoices flow (documented in `FunctionalTestCase.csv`, TC-M-08, and `automation-and-debugging.md` Entry 3).
+- **UI suite: code-complete, not executed in this environment.** The machine this project was built on blocks launching the downloaded Chromium binary via a Windows Application Control policy (`browserType.launch: spawn UNKNOWN`, root-caused down to `Start-Process` itself refusing to run `chrome.exe` — see `ai-prompts/automation-and-debugging.md`, Entry 4b for the full investigation). This is a machine/policy restriction, not a code issue — the same `npm run test:ui` should run normally on a developer machine or in CI. Every UI scenario the suite encodes was independently verified by hand against the live site first (see `exploratory-testing-notes.md` and `ai-prompts/automation-and-debugging.md` Entries 2-3) before being automated, including the real defect in `defect-report.md`.
 
 ## Manual test suite
-`FunctionalTestCase.csv` — 8 cases, UI-layer, covering registration, login, cart, and checkout/invoice. 7 verified live and Passed; 1 (`TC-M-08`) is a documented **Failed** with a real defect found during manual verification, not a placeholder result.
+`FunctionalTestCase.csv` — 8 cases, UI-layer, covering registration, login, cart, and checkout/invoice. 7 verified live and Passed; 1 (`TC-M-08`) is a documented **Failed** with a real defect (see `defect-report.md`), not a placeholder result.
