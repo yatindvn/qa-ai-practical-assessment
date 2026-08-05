@@ -98,3 +98,16 @@ Root cause: `invoicePayload()` was generating `billing_city`/`billing_state` wit
 **AI Response Summary:** Created `package.json`/`tsconfig.json`/`playwright.config.ts` with two Playwright projects (`ui-chromium` against the app origin, `api` against the API origin), `src/pages/*` page objects, `src/api/ToolshopApiClient.ts`, `src/utils/testDataGenerator.ts`, and `tests/ui` / `tests/api` spec folders with `@smoke`/`@regression` tags matching `test-design.md`.
 
 **Validation Notes:** This structural assumption (documented already in `requirements-and-planning.md`, Entry 1) is called out again here at the point it actually gets built, per the "iterative development" instruction — not silently decided once and left unstated.
+
+---
+
+## Entry 6 — Self-review against the 5-8-test-case cap found a real overflow
+
+**Prompt:**
+> Evaluate this whole submission against the brief's own hard constraints, not just "does it look complete." Specifically check whether the UI suite actually reports 7 test cases the way test-design.md claims, or something else.
+
+**AI Response Summary:** Counted actual `test()` call sites versus what Playwright would report at execution time. `registration.spec.ts`'s UI-02 was written as a `for` loop wrapping a single `test()` call — one call site in the source, but 5 separate named test cases at runtime (one per entry in `invalidPasswords`). Confirmed with `npx playwright test --list` (a dry run that doesn't need a browser, so it worked in this environment despite the Chromium launch being blocked): the UI suite was reporting **11 test cases**, not the 7 planned — over the brief's 5-8-per-type cap.
+
+**Fix:** Rewrote UI-02 as a single `test()` that iterates over `invalidPasswords` *internally*, asserting each rule inside the same test case (with the specific rule name included in the assertion message, so a failure still says which rule broke) instead of registering 5 separate Playwright tests. Re-ran `npx playwright test --list`: **7 tests total**, matching `test-design.md`.
+
+**Debugging Outcome:** This is the kind of gap that's invisible from reading the code (a `for` loop around a `test()` call looks completely reasonable) and only shows up by checking what the test *runner* actually reports — which is exactly what an evaluator counting rows in an execution report would see. Caught by deliberately auditing against the brief's literal constraint rather than trusting that "the code looks like it does 7 things."

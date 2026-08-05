@@ -29,7 +29,7 @@ Selection rule applied: every case must trace to an AC (traceability requirement
 | ID | Scenario | Tags | AC |
 |---|---|---|---|
 | UI-01 | Register new user with valid data | @smoke | UI-AC1 |
-| UI-02 | Register with invalid password (parameterized: too short / no upper / no number / no special char) | @regression | UI-AC1 |
+| UI-02 | Register with invalid password — one test case, iterating internally over too-short / no-upper / no-lower / no-number / no-special-char (not a Playwright-level parameterized loop, which would report 5 separate test cases and blow the per-type cap) | @regression | UI-AC1 |
 | UI-03 | Register with duplicate email | @regression | UI-AC1 |
 | UI-04 | Login with valid credentials, verify profile data | @smoke | UI-AC1 |
 | UI-05 | Login with invalid credentials shows error, no session | @regression | UI-AC1 |
