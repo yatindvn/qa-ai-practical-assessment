@@ -52,3 +52,29 @@ Selection rule applied: every case must trace to an AC (traceability requirement
 - Swagger resource groups not mentioned in the brief's example (Report, TOTP, Favorite, Brand) — out of scope per "test a flow/component," not the whole API surface.
 
 **Validation Notes:** Checked that every one of the brief's 8 Core Acceptance Criteria bullets has at least one covering case: scope/objectives (all), traceable mapping (AC column above), valid+invalid transitions (double-confirm pair UI-06/API-07, login pairs), create/list/view/update/error-handling (mapped column above for manual suite; same categories apply 1:1 to the UI/API automation IDs), planned test data (see `test-data.md`), ≥1 automation suite runnable from README (both UI and API suites will be), prompt history (this file + `requirements-and-planning.md`).
+
+---
+
+## Entry 2 — Stretch tier: extra coverage without reopening the 5-8 cap
+
+**Prompt:** (see `automation-and-debugging.md`, Entry 8, for the full back-and-forth) — add more test coverage, but as a clearly separate `@stretch`-tagged tier outside the capped Core suite, pulling from the scenarios already identified in Entry 1 as "deliberately out of scope."
+
+### UI Stretch (4) — `PrismStructure/tests/ui/stretch.spec.ts`
+| ID | Scenario | AC |
+|---|---|---|
+| STRETCH-UI-01 | Product search returns matching results | UI-AC2 |
+| STRETCH-UI-02 | Malformed postcode does not resolve to a fake address (edge case on the auto-fill feature) | UI-AC1 |
+| STRETCH-UI-03 | Cart contents persist across sign-out and sign-in | UI-AC2 |
+| STRETCH-UI-04 | An out-of-stock product cannot be added to the cart (self-skips if no OOS product exists in the current catalog) | UI-AC2 |
+
+### API Stretch (4) — `PrismStructure/tests/api/stretch.spec.ts`
+| ID | Scenario | AC |
+|---|---|---|
+| STRETCH-API-01 | `POST /carts` succeeds without a bearer token — anonymous/guest cart creation | API-AC1 |
+| STRETCH-API-02 | Items can be added to an anonymous cart without a bearer token | API-AC1 |
+| STRETCH-API-03 | Adding a cart item with an invalid `product_id` is rejected | API-AC2 |
+| STRETCH-API-04 | Adding a cart item with quantity `0` is rejected, not silently accepted | API-AC2 |
+
+**Isolation from Core:** `@stretch` is not `@smoke` or `@regression`, so `npm run test:smoke`/`test:regression` never include it. `npm run test:ui`/`test:api`/`test` (the default) explicitly run `--grep-invert @stretch`, so Core stays at exactly 7 UI / 7 API regardless of how many Stretch tests exist. Run Stretch explicitly via `npm run test:stretch`.
+
+**Validation Notes:** STRETCH-API-01 and -02 were originally written asserting `401` (assumed cart creation required auth, by analogy with `/invoices`). Running them for real returned `201`/`200` — cart creation and item-adding both work fully anonymously. Rewrote both to assert the actual verified behavior instead of forcing the wrong assumption to pass. Full root-cause note in `automation-and-debugging.md`, Entry 8.

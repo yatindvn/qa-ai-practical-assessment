@@ -37,17 +37,19 @@ npx playwright install chromium
 
 ## Running tests
 ```bash
-npm run test:smoke        # all @smoke tests, UI + API
-npm run test:regression   # all @regression tests, UI + API
-npm run test:api          # API suite only
-npm run test:ui           # UI suite only
+npm run test:smoke        # all @smoke tests, UI + API (Core)
+npm run test:regression   # all @regression tests, UI + API (Core)
+npm run test:api          # Core API suite only (7 tests; excludes @stretch)
+npm run test:ui           # Core UI suite only (7 tests; excludes @stretch)
+npm run test:stretch      # Stretch suite (8 tests, UI + API — see automation-opportunities.md)
 npm run report             # open the last HTML report
 ```
-Reports are written to `PrismStructure/reports/html-report` (HTML) and `PrismStructure/reports/results.json` (JSON), per `playwright.config.ts`.
+Core (`test`, `test:ui`, `test:api`) always excludes `@stretch` via `--grep-invert`, so the reported count stays exactly 7 UI / 7 API regardless of how much Stretch coverage exists — this is deliberate, to keep the brief's 5-8-per-type cap unambiguous (see `ai-prompts/automation-and-debugging.md`, Entry 8). Reports are written to `PrismStructure/reports/html-report` (HTML) and `PrismStructure/reports/results.json` (JSON), per `playwright.config.ts`.
 
 ## Current execution status
-- **API suite: 7/7 passing.** Executed and reports committed under `PrismStructure/reports/`.
-- **UI suite: code-complete, not executed in this environment.** The machine this project was built on blocks launching the downloaded Chromium binary via a Windows Application Control policy (`browserType.launch: spawn UNKNOWN`, root-caused down to `Start-Process` itself refusing to run `chrome.exe` — see `ai-prompts/automation-and-debugging.md`, Entry 4b for the full investigation). This is a machine/policy restriction, not a code issue — the same `npm run test:ui` should run normally on a developer machine or in CI. Every UI scenario the suite encodes was independently verified by hand against the live site first (see `exploratory-testing-notes.md` and `ai-prompts/automation-and-debugging.md` Entries 2-3) before being automated, including the real defect in `defect-report.md`.
+- **Core API suite: 7/7 passing.** Executed and reports committed under `PrismStructure/reports/`.
+- **Stretch API suite: 4/4 passing**, executed for real in this environment (API tests don't need a browser). One real finding along the way: two of the four were originally written expecting cart creation to require a bearer token; running them showed `POST /carts` actually succeeds anonymously (`201`, no token needed) — the tests were rewritten to assert that verified behavior instead of the wrong assumption. Full writeup: `ai-prompts/automation-and-debugging.md`, Entry 8.
+- **Core + Stretch UI suites: code-complete, fixes applied, re-verification pending.** This environment blocks launching the downloaded Chromium binary via a Windows Application Control policy (`browserType.launch: spawn UNKNOWN`, root-caused down to `Start-Process` itself refusing to run `chrome.exe` — Entry 4b). The suite *was* run once on an unblocked machine: 4/7 Core passed, 3 failed. All 3 failures were root-caused from the actual captured screenshots/errors (one real race-condition bug in `purchase.spec.ts`, one live-site latency issue, one product-page rendering issue) and fixed — see Entry 7. **The suite needs to be re-run to confirm the fixes hold**; that hasn't happened yet since this environment still can't launch a browser.
 
 ## Manual test suite
 `FunctionalTestCase.csv` — 8 cases, UI-layer, covering registration, login, cart, and checkout/invoice. 7 verified live and Passed; 1 (`TC-M-08`) is a documented **Failed** with a real defect (see `defect-report.md`), not a placeholder result.

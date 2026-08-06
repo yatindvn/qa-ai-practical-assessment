@@ -4,11 +4,12 @@
   "description": "Playwright (Prism-style POM) UI + API automation for the PracticeSoftwareTesting Toolshop QA AI Practical Assessment",
   "private": true,
   "scripts": {
-    "test": "playwright test",
+    "test": "playwright test --grep-invert @stretch",
     "test:smoke": "playwright test --grep @smoke",
     "test:regression": "playwright test --grep @regression",
-    "test:ui": "playwright test tests/ui",
-    "test:api": "playwright test tests/api",
+    "test:ui": "playwright test tests/ui --grep-invert @stretch",
+    "test:api": "playwright test tests/api --grep-invert @stretch",
+    "test:stretch": "playwright test --grep @stretch",
     "report": "playwright show-report reports/html-report"
   },
   "devDependencies": {

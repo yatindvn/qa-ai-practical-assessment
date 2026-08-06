@@ -131,3 +131,19 @@ Root cause: `invoicePayload()` was generating `billing_city`/`billing_state` wit
 - Bumped `playwright.config.ts`'s default `expect.timeout` (8s → 12s) and test `timeout` (30s → 45s) to give real network round-trips against a live public site reasonable headroom, on top of (not instead of) the structural fixes above.
 
 **Validation Notes:** Re-ran `npx playwright test --list` after the changes: still 7 UI tests (the fix didn't reintroduce the Entry 6 overflow). Re-ran the API suite: still 7/7 passing (config change didn't regress it). The actual UI suite still needs to be re-run on the unblocked machine to confirm these fixes hold — this environment still can't launch Chromium (Entry 4b), so this fix was validated by root-causing the real captured evidence, not by re-running it here.
+
+---
+
+## Entry 8 — Adding Stretch coverage without reopening the cap, and a wrong assumption caught by running the test
+
+**Prompt:**
+> Add more test coverage. Given the brief's hard 5-8-per-type cap (and the overflow already found and fixed in Entry 6), don't add it to Core — add it as a clearly separate tier that can't accidentally blend into what gets counted as the required suite.
+
+**AI Response Summary:**
+- Added `tests/ui/stretch.spec.ts` (4 tests) and `tests/api/stretch.spec.ts` (4 tests), all tagged `@stretch`, pulled from the scenarios `test-design.md` Entry 1 already named as "deliberately out of scope" for Core (postcode edge case, cross-session cart persistence, product search, out-of-stock handling, cart auth boundaries, invalid product_id/quantity).
+- Checked that `@stretch` can't silently leak into Core: `npm run test:smoke`/`test:regression` only ever match their own tags, but `test:ui`/`test:api`/`test` had no filter at all — they'd have run every spec in the folder, Stretch included, the moment `stretch.spec.ts` existed. Added `--grep-invert @stretch` to all three so Core's reported count stays exactly 7/7 regardless of how much Stretch coverage exists. Verified via `--list` for every script variant.
+- **Ran the 4 new API Stretch tests for real** (this sandbox can execute API tests, just not launch a UI browser) before committing anything. Two failed immediately: `STRETCH-API-01`/`02` had been written expecting `POST /carts` to return `401` without a bearer token, by analogy with `/invoices` (which does require one, per Core `API-05`/`06`). Actual result: `201` — cart creation, and adding items to it, both work with **no token at all**.
+- Confirmed this isn't a bug: it's what backs the guest-checkout flow already verified live in Entry 2 (a guest completes an order without ever authenticating, so the cart obviously can't require auth to exist). Rewrote both tests to assert the real, verified behavior instead of forcing the original wrong assumption to pass — the wrong version would have been exactly the "AI-generated output that looks plausible but wasn't checked" failure mode this whole project has been trying to avoid.
+- Re-ran after the rewrite: all 4 API Stretch tests pass for real. UI Stretch tests are code-complete but unverified here, same constraint as Core (Entry 4b) — need to be run on the unblocked machine alongside the Core UI re-run.
+
+**Validation Notes:** `npx playwright test --list` confirms: Core UI = 7, Core API = 7 (unchanged), Stretch = 8 (4+4), with zero overlap in tags. The committed `reports/` folder was regenerated via the now-filtered `npm run test:api` so it reflects Core-only results (7/7), not a mix of Core and Stretch — keeping the one artifact an evaluator would count rows in unambiguous.

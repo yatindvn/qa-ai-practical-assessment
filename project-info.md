@@ -26,6 +26,9 @@ Full scenario-level detail (one row per case, with AC traceability): `ai-prompts
 
 (A case can carry more than one of Positive/Negative/Edge where relevant, e.g. the double-confirm checkout case — counts above reflect each case's primary classification, not a strict partition. All three suites are within the brief's 5-8-per-type cap; see `ai-prompts/automation-and-debugging.md`, Entry 6 for a case where the UI suite briefly exceeded it and how that was caught and fixed.)
 
+### Stretch tier (outside the cap)
+8 additional tests (4 UI, 4 API), tagged `@stretch` and excluded from the Core scripts by default — see `automation-opportunities.md` and `ai-prompts/test-design.md` Entry 2. Covers product search, a malformed-postcode edge case, cross-session cart persistence, out-of-stock handling, anonymous/guest cart creation, and cart item validation. Run via `npm run test:stretch`.
+
 ## Tools Used
 - Browser: Chromium (via automated browser tooling for exploration; Playwright for automation)
 - Automation: Playwright (Prism framework structure), TypeScript/JavaScript

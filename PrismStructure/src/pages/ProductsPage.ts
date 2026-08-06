@@ -9,6 +9,9 @@ export class ProductsPage {
   readonly addToCart: Locator;
   readonly navCart: Locator;
   readonly cartQuantityBadge: Locator;
+  readonly searchQuery: Locator;
+  readonly searchSubmit: Locator;
+  readonly outOfStockBadge: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -19,6 +22,18 @@ export class ProductsPage {
     this.addToCart = page.getByTestId('add-to-cart');
     this.navCart = page.getByTestId('nav-cart');
     this.cartQuantityBadge = page.getByTestId('cart-quantity');
+    this.searchQuery = page.getByTestId('search-query');
+    this.searchSubmit = page.getByTestId('search-submit');
+    this.outOfStockBadge = page.getByTestId('out-of-stock');
+  }
+
+  async search(term: string) {
+    await this.searchQuery.fill(term);
+    await this.searchSubmit.click();
+  }
+
+  productCardByName(name: string): Locator {
+    return this.page.locator('[data-test^="product-"]').filter({ hasText: name });
   }
 
   async goto() {
