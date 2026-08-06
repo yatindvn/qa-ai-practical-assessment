@@ -5,6 +5,27 @@ Assessment Start Date: 2026-08-04 / Submission Date: TBD
 ## Project Summary
 Manual + UI + API testing of the Toolshop ecommerce demo app, focused on registration/login and the end-to-end browse → cart → Cash on Delivery checkout → invoice flow, including the app's known "confirm twice to generate invoice" behavior, plus the equivalent API lifecycle (register → login → cart → invoice).
 
+## Scope
+
+### UI scope
+- User registration, login, and profile validation (`TC-M-01..05`, `UI-01..05`).
+- End-to-end purchase: browse -> add/update cart -> checkout via Cash on Delivery -> invoice, including the app's "confirm twice to generate invoice" behavior (`TC-M-06..08`, `UI-06..07`).
+
+### API scope
+- User registration, login, bearer token generation, cart creation (`API-01..04`).
+- Product fetch -> add to cart -> validate cart -> invoice generation, including a duplicate-submission check (`API-05..07`).
+
+Full scenario-level detail (one row per case, with AC traceability): `ai-prompts/test-design.md` (all three suites) and `api-test-scenarios.md` (API, standalone view). Full candidate bank before risk-based down-selection: `ai-prompts/requirements-and-planning.md`, Entry 2.
+
+### Coverage breakdown
+| Suite | Total | Smoke | Regression | Positive | Negative | Edge |
+|---|---|---|---|---|---|---|
+| Manual (`FunctionalTestCase.csv`) | 8 | 3 | 5 | 5 | 3 | 1 |
+| UI automation (`tests/ui/`) | 7 | 3 | 4 | 3 | 3 | 1 |
+| API automation (`tests/api/`) | 7 | 4 | 3 | 4 | 2 | 1 |
+
+(A case can carry more than one of Positive/Negative/Edge where relevant, e.g. the double-confirm checkout case — counts above reflect each case's primary classification, not a strict partition. All three suites are within the brief's 5-8-per-type cap; see `ai-prompts/automation-and-debugging.md`, Entry 6 for a case where the UI suite briefly exceeded it and how that was caught and fixed.)
+
 ## Tools Used
 - Browser: Chromium (via automated browser tooling for exploration; Playwright for automation)
 - Automation: Playwright (Prism framework structure), TypeScript/JavaScript
