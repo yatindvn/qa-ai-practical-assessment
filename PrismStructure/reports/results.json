@@ -4,9 +4,9 @@
       "C:\\Program Files\\nodejs\\node.exe",
       "C:\\Users\\Yatin Dhawan\\assiment\\qa-ai-practical-assessment\\PrismStructure\\node_modules\\@playwright\\test\\cli.js",
       "test",
-      "--grep",
-      "@stretch",
-      "--list"
+      "tests/api",
+      "--grep-invert",
+      "@stretch"
     ],
     "configFile": "C:\\Users\\Yatin Dhawan\\assiment\\qa-ai-practical-assessment\\PrismStructure\\playwright.config.ts",
     "rootDir": "C:/Users/Yatin Dhawan/assiment/qa-ai-practical-assessment/PrismStructure/tests",
@@ -19,14 +19,18 @@
     "grep": {},
     "grepInvert": null,
     "maxFailures": 0,
-    "metadata": {},
+    "metadata": {
+      "actualWorkers": 1
+    },
     "preserveOutput": "always",
     "projects": [
       {
         "outputDir": "C:/Users/Yatin Dhawan/assiment/qa-ai-practical-assessment/PrismStructure/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {},
+        "metadata": {
+          "actualWorkers": 1
+        },
         "id": "ui-chromium",
         "name": "ui-chromium",
         "testDir": "C:/Users/Yatin Dhawan/assiment/qa-ai-practical-assessment/PrismStructure/tests/ui",
@@ -40,7 +44,9 @@
         "outputDir": "C:/Users/Yatin Dhawan/assiment/qa-ai-practical-assessment/PrismStructure/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {},
+        "metadata": {
+          "actualWorkers": 1
+        },
         "id": "api",
         "name": "api",
         "testDir": "C:/Users/Yatin Dhawan/assiment/qa-ai-practical-assessment/PrismStructure/tests/api",
@@ -85,112 +91,168 @@
   },
   "suites": [
     {
-      "title": "ui\\stretch.spec.ts",
-      "file": "ui/stretch.spec.ts",
+      "title": "api\\auth.spec.ts",
+      "file": "api/auth.spec.ts",
       "column": 0,
       "line": 0,
       "specs": [
         {
-          "title": "@stretch searching for a known product returns matching results",
+          "title": "@smoke POST /users/register creates a new user",
           "ok": true,
           "tags": [
-            "stretch"
+            "smoke"
           ],
           "tests": [
             {
               "timeout": 45000,
               "annotations": [],
               "expectedStatus": "passed",
-              "projectId": "ui-chromium",
-              "projectName": "ui-chromium",
-              "results": [],
-              "status": "skipped"
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 861,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-06T04:30:53.725Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
             }
           ],
-          "id": "83be57a086480c108ead-112010d332a2655195f5",
-          "file": "ui/stretch.spec.ts",
-          "line": 16,
+          "id": "d748ac400d08b85935ef-a1a777f0c44256f751c8",
+          "file": "api/auth.spec.ts",
+          "line": 6,
           "column": 5
         },
         {
-          "title": "@stretch registration rejects a malformed postcode instead of silently matching a fake address",
+          "title": "@regression POST /users/register rejects a duplicate email",
           "ok": true,
           "tags": [
-            "stretch"
+            "regression"
           ],
           "tests": [
             {
               "timeout": 45000,
               "annotations": [],
               "expectedStatus": "passed",
-              "projectId": "ui-chromium",
-              "projectName": "ui-chromium",
-              "results": [],
-              "status": "skipped"
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1519,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-06T04:30:54.634Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
             }
           ],
-          "id": "83be57a086480c108ead-afe5901800fc30c691c6",
-          "file": "ui/stretch.spec.ts",
-          "line": 26,
+          "id": "d748ac400d08b85935ef-0c5ed5e683fcd3fffc9a",
+          "file": "api/auth.spec.ts",
+          "line": 19,
           "column": 5
         },
         {
-          "title": "@stretch cart contents persist across sign-out and sign-in",
+          "title": "@smoke POST /users/login returns a bearer token for valid credentials",
           "ok": true,
           "tags": [
-            "stretch"
+            "smoke"
           ],
           "tests": [
             {
               "timeout": 45000,
               "annotations": [],
               "expectedStatus": "passed",
-              "projectId": "ui-chromium",
-              "projectName": "ui-chromium",
-              "results": [],
-              "status": "skipped"
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1378,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-06T04:30:56.170Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
             }
           ],
-          "id": "83be57a086480c108ead-5522671175675b275d2a",
-          "file": "ui/stretch.spec.ts",
-          "line": 43,
+          "id": "d748ac400d08b85935ef-8accc9ba70308d05a95a",
+          "file": "api/auth.spec.ts",
+          "line": 32,
           "column": 5
         },
         {
-          "title": "@stretch an out-of-stock product cannot be added to the cart",
+          "title": "@regression POST /users/login rejects invalid credentials",
           "ok": true,
           "tags": [
-            "stretch"
+            "regression"
           ],
           "tests": [
             {
               "timeout": 45000,
               "annotations": [],
               "expectedStatus": "passed",
-              "projectId": "ui-chromium",
-              "projectName": "ui-chromium",
-              "results": [],
-              "status": "skipped"
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 641,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-06T04:30:57.575Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
             }
           ],
-          "id": "83be57a086480c108ead-6bf7df91af167a241cb9",
-          "file": "ui/stretch.spec.ts",
-          "line": 69,
+          "id": "d748ac400d08b85935ef-bd45d7b9017550cf6bf7",
+          "file": "api/auth.spec.ts",
+          "line": 46,
           "column": 5
         }
       ]
     },
     {
-      "title": "api\\stretch.spec.ts",
-      "file": "api/stretch.spec.ts",
+      "title": "api\\invoice.spec.ts",
+      "file": "api/invoice.spec.ts",
       "column": 0,
       "line": 0,
       "specs": [
         {
-          "title": "@stretch POST /carts succeeds without a bearer token (anonymous/guest cart)",
+          "title": "@smoke create a cart, add a product, and verify cart contents",
           "ok": true,
           "tags": [
-            "stretch"
+            "smoke"
           ],
           "tests": [
             {
@@ -199,20 +261,34 @@
               "expectedStatus": "passed",
               "projectId": "api",
               "projectName": "api",
-              "results": [],
-              "status": "skipped"
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3432,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-06T04:30:58.251Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
             }
           ],
-          "id": "83be57a086480c108ead-53f64285f064b70bbc4e",
-          "file": "api/stretch.spec.ts",
-          "line": 29,
+          "id": "8772d09381b7e4721d5b-7010d0543f56a56c94bf",
+          "file": "api/invoice.spec.ts",
+          "line": 20,
           "column": 5
         },
         {
-          "title": "@stretch items can be added to an anonymous cart without a bearer token",
+          "title": "@smoke POST /invoices generates an invoice for a valid cart",
           "ok": true,
           "tags": [
-            "stretch"
+            "smoke"
           ],
           "tests": [
             {
@@ -221,20 +297,34 @@
               "expectedStatus": "passed",
               "projectId": "api",
               "projectName": "api",
-              "results": [],
-              "status": "skipped"
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4325,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-06T04:31:01.701Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
             }
           ],
-          "id": "83be57a086480c108ead-8197329f29aa0fdc2006",
-          "file": "api/stretch.spec.ts",
-          "line": 37,
+          "id": "8772d09381b7e4721d5b-72054a37d43ebff49dc6",
+          "file": "api/invoice.spec.ts",
+          "line": 41,
           "column": 5
         },
         {
-          "title": "@stretch adding a cart item with an invalid product_id is rejected",
+          "title": "@regression submitting the same cart_id twice does not silently double-invoice",
           "ok": true,
           "tags": [
-            "stretch"
+            "regression"
           ],
           "tests": [
             {
@@ -243,34 +333,26 @@
               "expectedStatus": "passed",
               "projectId": "api",
               "projectName": "api",
-              "results": [],
-              "status": "skipped"
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4209,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-06T04:31:06.053Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
             }
           ],
-          "id": "83be57a086480c108ead-a33a40469819cad73e7a",
-          "file": "api/stretch.spec.ts",
-          "line": 55,
-          "column": 5
-        },
-        {
-          "title": "@stretch adding a cart item with quantity 0 is rejected, not silently accepted",
-          "ok": true,
-          "tags": [
-            "stretch"
-          ],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "api",
-              "projectName": "api",
-              "results": [],
-              "status": "skipped"
-            }
-          ],
-          "id": "83be57a086480c108ead-dcb92052756d009483e6",
-          "file": "api/stretch.spec.ts",
+          "id": "8772d09381b7e4721d5b-52dd9ac209df4945e6f5",
+          "file": "api/invoice.spec.ts",
           "line": 67,
           "column": 5
         }
@@ -279,10 +361,10 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-08-06T04:22:30.017Z",
-    "duration": 301.07500000000005,
-    "expected": 0,
-    "skipped": 8,
+    "startTime": "2026-08-06T04:30:52.461Z",
+    "duration": 17911.119,
+    "expected": 7,
+    "skipped": 0,
     "unexpected": 0,
     "flaky": 0
   }

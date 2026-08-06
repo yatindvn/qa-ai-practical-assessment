@@ -147,3 +147,23 @@ Root cause: `invoicePayload()` was generating `billing_city`/`billing_state` wit
 - Re-ran after the rewrite: all 4 API Stretch tests pass for real. UI Stretch tests are code-complete but unverified here, same constraint as Core (Entry 4b) — need to be run on the unblocked machine alongside the Core UI re-run.
 
 **Validation Notes:** `npx playwright test --list` confirms: Core UI = 7, Core API = 7 (unchanged), Stretch = 8 (4+4), with zero overlap in tags. The committed `reports/` folder was regenerated via the now-filtered `npm run test:api` so it reflects Core-only results (7/7), not a mix of Core and Stretch — keeping the one artifact an evaluator would count rows in unambiguous.
+
+---
+
+## Entry 9 — Second real UI run: 5/7 passed, both remaining failures traced to a manual-verification blind spot
+
+**Prompt:**
+> Re-run on the unblocked machine after the Entry 7 fixes: cart-quantity now passes, but login.spec.ts and purchase.spec.ts still fail, with different errors than before. Pull the real evidence again before touching anything.
+
+**AI Response Summary:** Both failures showed the identical pattern in `results.json`: `locator.click`/`selectOption` timing out for a full 45s with "element is not visible" (not "not found" — the element *resolves*, it's just not rendered/shown). That's a structurally different signal than Entry 7's timeouts, and screenshots confirmed why:
+
+1. **`login.spec.ts`** — screenshot shows the `/account` overview page with visible **Profile / Invoices / Favorites / Messages cards** in the page body. `AccountPage.openProfile()` was clicking `data-test="nav-my-profile"` — which turns out to live inside the **collapsed top-nav user dropdown** (`class="dropdown-item"`, confirmed via the failure's accessibility snapshot), not the visible card. The visible card has its own, separate test id: `nav-profile` (no `-my-`).
+2. **`purchase.spec.ts`** — screenshot shows that for an already-signed-in user, clicking past the Cart step does **not** skip straight to the billing address form. It lands on a confirmation screen — *"Hello \<name\>, you are already logged in. You can proceed to checkout."* — with its own "Proceed to checkout" button. `CheckoutPage.proceedToBillingAsSignedInUser()` had no click for this step at all; it went straight from `proceed1.click()` to filling `country`, which doesn't exist on screen yet.
+
+**Root cause behind both:** the original manual exploration for these flows (`ai-prompts/requirements-and-planning.md` Entry 4, `automation-and-debugging.md` Entry 2) used raw `document.querySelector(...).click()` / value-setter calls from the browser console, not real Playwright interactions. A raw DOM `.click()` can fire on an element that exists but isn't visually shown (hidden in a collapsed dropdown, or present in the Angular component tree on a step that isn't the active one); Playwright's strict actionability checks correctly refuse to. That gap is exactly what these two failures are — not new site behavior, but real interaction steps the earlier "verified live" exploration didn't actually exercise the way a real user (or a real Playwright test) would. Worth being explicit about rather than implying the earlier verification was more rigorous than it was.
+
+**Fix:**
+- `AccountPage`: switched `navMyProfile`/`navMyInvoices` to the visible-card test ids (`nav-profile`/`nav-invoices`). Added a `signOut()` method that opens the user-menu dropdown (`.dropdown-toggle`, a Bootstrap-convention guess — not independently confirmed, flagged in the code comment) before clicking `nav-sign-out`, since sign-out has no visible-card equivalent.
+- `CheckoutPage.proceedToBillingAsSignedInUser()`: added a click on `proceed-2` (the "Proceed to checkout" confirmation button) between `proceed1` and filling the address fields.
+
+**Validation Notes:** `npx playwright test --list` re-confirmed 7 Core UI / 4 Stretch UI, unchanged. Cannot re-execute here (Entry 4b's browser-launch block is unrelated to and unaffected by this fix). Needs a third run on the unblocked machine — if `login.spec.ts` and `purchase.spec.ts` still fail, the next debugging step should be pulling the accessibility snapshot for the exact `.dropdown-toggle`/`proceed-2` element rather than guessing again.

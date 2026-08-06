@@ -4,16 +4,22 @@ import { RegistrationData } from '@utils/testDataGenerator';
 /**
  * Toolshop's cart + checkout is a single stepper at /checkout: CART(1) -> SIGN IN(2) ->
  * BILLING ADDRESS(3) -> PAYMENT(4). Continue-button data-test ids differ for guest vs.
- * signed-in users at step 2 (verified live): "proceed-2-guest" after filling the guest
- * fields, vs. the address step's own "proceed-3" for a signed-in user (address step is
- * reached directly after proceed-1). Both paths converge on "proceed-3" to leave the
- * billing-address step.
+ * signed-in users at step 2. For an already-signed-in user, step 2 is NOT skipped —
+ * it shows a "Hello <name>, you are already logged in. You can proceed to checkout."
+ * confirmation with its own "Proceed to checkout" button (data-test="proceed-2")
+ * that must be clicked before the billing address fields become visible. This was
+ * missed during manual exploration (raw DOM queries found the address fields present
+ * in the DOM regardless of which step was actually visible) and only surfaced when a
+ * real Playwright run enforced strict visibility — see
+ * ai-prompts/automation-and-debugging.md, Entry 9. Both the guest and signed-in paths
+ * converge on "proceed-3" to leave the billing-address step.
  */
 export class CheckoutPage {
   readonly page: Page;
   readonly cartLineQuantity: Locator;
   readonly cartTotal: Locator;
   readonly proceed1: Locator;
+  readonly proceed2SignedIn: Locator;
   readonly guestEmail: Locator;
   readonly guestFirstName: Locator;
   readonly guestLastName: Locator;
@@ -32,6 +38,7 @@ export class CheckoutPage {
     this.cartLineQuantity = page.getByTestId('product-quantity');
     this.cartTotal = page.getByTestId('cart-total');
     this.proceed1 = page.getByTestId('proceed-1');
+    this.proceed2SignedIn = page.getByTestId('proceed-2');
     this.guestEmail = page.getByTestId('guest-email');
     this.guestFirstName = page.getByTestId('guest-first-name');
     this.guestLastName = page.getByTestId('guest-last-name');
@@ -53,6 +60,9 @@ export class CheckoutPage {
 
   async proceedToBillingAsSignedInUser(data: RegistrationData) {
     await this.proceed1.click();
+    // "Hello <name>, you are already logged in. You can proceed to checkout."
+    // confirmation step — must be clicked before the address fields render.
+    await this.proceed2SignedIn.click();
     await this.country.selectOption(data.country);
     await this.postalCode.fill(data.postalCode);
     await this.houseNumber.fill(data.houseNumber);

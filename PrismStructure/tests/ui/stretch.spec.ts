@@ -56,7 +56,7 @@ test('@stretch cart contents persist across sign-out and sign-in', async ({ page
   await productsPage.addFirstProductToCart();
   await expect(productsPage.cartQuantityBadge).toHaveText('1');
 
-  await accountPage.navSignOut.click();
+  await accountPage.signOut();
   await loginPage.goto();
   await loginPage.login(data.email, data.password);
   await expect(page).toHaveURL(/account/, { timeout: 15_000 });
