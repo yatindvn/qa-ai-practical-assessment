@@ -187,3 +187,13 @@ The button exists, is visible, and is simply `disabled`. Given `ProductsPage.fir
 - Added a defensive `expect(addToCart).toBeEnabled()` at the end of `openFirstProduct()` — belt-and-braces so that if this ever happens again for a different reason, the failure is immediate and says "add-to-cart should be enabled," not a 45-second generic timeout with no hint why.
 
 **Validation Notes:** `npx playwright test --list` re-confirmed 7 Core UI tests, unchanged. This is the third distinct root cause found across three real runs on the live public demo site — each one different (a race condition, two missing-step navigation gaps, and now catalog-state dependence) and each one only found by actually executing against the real, shared, non-deterministic backend rather than a fixed test fixture. That's a legitimate cost of testing against a live public demo instead of a dedicated seeded environment, and worth naming as a known characteristic of this suite, not just a string of unrelated bugs.
+
+---
+
+## Entry 11 — Fourth run: Core UI suite fully green, 7/7
+
+**Result:** Ran on the unblocked machine after the Entry 10 fix. All 7 Core UI tests passed — `login.spec.ts` (2), `purchase.spec.ts` (2), `registration.spec.ts` (3). No failure artifacts (screenshots/traces) generated, consistent with a clean pass. `reports/` (HTML + JSON) committed reflects this real, executed run, not a `--list` dry run.
+
+**Summary of the debug arc (Entries 7, 9, 10):** 4/7 -> 5/7 -> 6/7 -> 7/7 across four real executions, each round fixing a distinct, independently root-caused issue rather than the same bug resurfacing: a register->login race condition, two navigation steps that manual (non-Playwright) exploration had missed because it used raw DOM clicks instead of real visible interactions, and a live-catalog out-of-stock dependency. Every fix in this arc was made from actual captured evidence (JSON error output + failure screenshots pulled from disk, since this session shares the machine's filesystem with wherever the suite was actually run) — none were guessed or applied speculatively to "probably" fix something.
+
+**Still open:** Stretch UI suite (`tests/ui/stretch.spec.ts`, 4 tests via `npm run test:stretch`) has not been executed anywhere yet — code-complete, same status Core was in after Entry 6.

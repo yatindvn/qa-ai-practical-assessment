@@ -4,7 +4,7 @@
       "C:\\Program Files\\nodejs\\node.exe",
       "C:\\Users\\Yatin Dhawan\\assiment\\qa-ai-practical-assessment\\PrismStructure\\node_modules\\@playwright\\test\\cli.js",
       "test",
-      "tests/api",
+      "tests/ui",
       "--grep-invert",
       "@stretch"
     ],
@@ -91,13 +91,13 @@
   },
   "suites": [
     {
-      "title": "api\\auth.spec.ts",
-      "file": "api/auth.spec.ts",
+      "title": "ui\\login.spec.ts",
+      "file": "ui/login.spec.ts",
       "column": 0,
       "line": 0,
       "specs": [
         {
-          "title": "@smoke POST /users/register creates a new user",
+          "title": "@smoke login with valid credentials shows the correct profile",
           "ok": true,
           "tags": [
             "smoke"
@@ -107,19 +107,19 @@
               "timeout": 45000,
               "annotations": [],
               "expectedStatus": "passed",
-              "projectId": "api",
-              "projectName": "api",
+              "projectId": "ui-chromium",
+              "projectName": "ui-chromium",
               "results": [
                 {
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1155,
+                  "duration": 10885,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-06T04:42:46.157Z",
+                  "startTime": "2026-08-06T04:44:14.072Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -127,13 +127,13 @@
               "status": "expected"
             }
           ],
-          "id": "d748ac400d08b85935ef-a1a777f0c44256f751c8",
-          "file": "api/auth.spec.ts",
-          "line": 6,
+          "id": "41d3fd2474a19feb00a1-562d6384e14b9ec11bb2",
+          "file": "ui/login.spec.ts",
+          "line": 8,
           "column": 5
         },
         {
-          "title": "@regression POST /users/register rejects a duplicate email",
+          "title": "@regression login with invalid credentials is rejected",
           "ok": true,
           "tags": [
             "regression"
@@ -143,19 +143,19 @@
               "timeout": 45000,
               "annotations": [],
               "expectedStatus": "passed",
-              "projectId": "api",
-              "projectName": "api",
+              "projectId": "ui-chromium",
+              "projectName": "ui-chromium",
               "results": [
                 {
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1561,
+                  "duration": 2756,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-06T04:42:47.356Z",
+                  "startTime": "2026-08-06T04:44:25.392Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -163,93 +163,21 @@
               "status": "expected"
             }
           ],
-          "id": "d748ac400d08b85935ef-0c5ed5e683fcd3fffc9a",
-          "file": "api/auth.spec.ts",
-          "line": 19,
-          "column": 5
-        },
-        {
-          "title": "@smoke POST /users/login returns a bearer token for valid credentials",
-          "ok": true,
-          "tags": [
-            "smoke"
-          ],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "api",
-              "projectName": "api",
-              "results": [
-                {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 1307,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-08-06T04:42:48.931Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "d748ac400d08b85935ef-8accc9ba70308d05a95a",
-          "file": "api/auth.spec.ts",
-          "line": 32,
-          "column": 5
-        },
-        {
-          "title": "@regression POST /users/login rejects invalid credentials",
-          "ok": true,
-          "tags": [
-            "regression"
-          ],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "api",
-              "projectName": "api",
-              "results": [
-                {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 499,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-08-06T04:42:50.257Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "d748ac400d08b85935ef-bd45d7b9017550cf6bf7",
-          "file": "api/auth.spec.ts",
-          "line": 46,
+          "id": "41d3fd2474a19feb00a1-7200fb2d9947b91495c7",
+          "file": "ui/login.spec.ts",
+          "line": 27,
           "column": 5
         }
       ]
     },
     {
-      "title": "api\\invoice.spec.ts",
-      "file": "api/invoice.spec.ts",
+      "title": "ui\\purchase.spec.ts",
+      "file": "ui/purchase.spec.ts",
       "column": 0,
       "line": 0,
       "specs": [
         {
-          "title": "@smoke create a cart, add a product, and verify cart contents",
+          "title": "@smoke E2E purchase requires Confirm twice before the invoice is generated",
           "ok": true,
           "tags": [
             "smoke"
@@ -259,19 +187,19 @@
               "timeout": 45000,
               "annotations": [],
               "expectedStatus": "passed",
-              "projectId": "api",
-              "projectName": "api",
+              "projectId": "ui-chromium",
+              "projectName": "ui-chromium",
               "results": [
                 {
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 3268,
+                  "duration": 17177,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-06T04:42:50.789Z",
+                  "startTime": "2026-08-06T04:44:28.169Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -279,49 +207,13 @@
               "status": "expected"
             }
           ],
-          "id": "8772d09381b7e4721d5b-7010d0543f56a56c94bf",
-          "file": "api/invoice.spec.ts",
-          "line": 20,
+          "id": "993c92a1c717c9480450-a4fdc25ed273f712df16",
+          "file": "ui/purchase.spec.ts",
+          "line": 9,
           "column": 5
         },
         {
-          "title": "@smoke POST /invoices generates an invoice for a valid cart",
-          "ok": true,
-          "tags": [
-            "smoke"
-          ],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "api",
-              "projectName": "api",
-              "results": [
-                {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 4266,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-08-06T04:42:54.076Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "8772d09381b7e4721d5b-72054a37d43ebff49dc6",
-          "file": "api/invoice.spec.ts",
-          "line": 41,
-          "column": 5
-        },
-        {
-          "title": "@regression submitting the same cart_id twice does not silently double-invoice",
+          "title": "@regression cart quantity cannot go below the minimum of 1",
           "ok": true,
           "tags": [
             "regression"
@@ -331,19 +223,19 @@
               "timeout": 45000,
               "annotations": [],
               "expectedStatus": "passed",
-              "projectId": "api",
-              "projectName": "api",
+              "projectId": "ui-chromium",
+              "projectName": "ui-chromium",
               "results": [
                 {
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 4293,
+                  "duration": 8508,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-06T04:42:58.364Z",
+                  "startTime": "2026-08-06T04:44:45.355Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -351,9 +243,125 @@
               "status": "expected"
             }
           ],
-          "id": "8772d09381b7e4721d5b-52dd9ac209df4945e6f5",
-          "file": "api/invoice.spec.ts",
-          "line": 67,
+          "id": "993c92a1c717c9480450-ca717688a92344eadf24",
+          "file": "ui/purchase.spec.ts",
+          "line": 37,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "ui\\registration.spec.ts",
+      "file": "ui/registration.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "@smoke register with valid details succeeds",
+          "ok": true,
+          "tags": [
+            "smoke"
+          ],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-chromium",
+              "projectName": "ui-chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6040,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-06T04:44:53.885Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1e5aa7b6f95ae669165d-625f070ec8d1513e6cd7",
+          "file": "ui/registration.spec.ts",
+          "line": 6,
+          "column": 5
+        },
+        {
+          "title": "@regression register is blocked for each password-policy violation",
+          "ok": true,
+          "tags": [
+            "regression"
+          ],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-chromium",
+              "projectName": "ui-chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 12540,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-06T04:44:59.934Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1e5aa7b6f95ae669165d-9ddfe1a2d80c9e1974a0",
+          "file": "ui/registration.spec.ts",
+          "line": 20,
+          "column": 5
+        },
+        {
+          "title": "@regression register is blocked for an already-registered email",
+          "ok": true,
+          "tags": [
+            "regression"
+          ],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-chromium",
+              "projectName": "ui-chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9620,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-06T04:45:12.484Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1e5aa7b6f95ae669165d-7579caf909ffb0a10582",
+          "file": "ui/registration.spec.ts",
+          "line": 36,
           "column": 5
         }
       ]
@@ -361,8 +369,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-08-06T04:42:45.049Z",
-    "duration": 17683.045,
+    "startTime": "2026-08-06T04:44:13.195Z",
+    "duration": 69307.864,
     "expected": 7,
     "skipped": 0,
     "unexpected": 0,
