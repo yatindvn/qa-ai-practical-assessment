@@ -26,7 +26,23 @@ export class ProductsPage {
   }
 
   async openFirstProduct() {
+    await this.firstProductCard.waitFor({ state: 'visible', timeout: 15_000 });
     await this.firstProductCard.click();
+
+    // The product detail page can render its shell (nav/footer/"Related
+    // products") before — or without — the main product content actually
+    // loading; waiting on add-to-cart alone (later) just times out generically
+    // with no clue why. Wait on the product name explicitly, with one reload
+    // retry for a transient failed fetch, so a genuinely broken product page
+    // fails fast with a clear cause instead of a vague 30s add-to-cart
+    // timeout. Reproduced live: see ai-prompts/automation-and-debugging.md,
+    // Entry 7.
+    try {
+      await this.productName.waitFor({ state: 'visible', timeout: 10_000 });
+    } catch {
+      await this.page.reload();
+      await this.productName.waitFor({ state: 'visible', timeout: 10_000 });
+    }
   }
 
   async addFirstProductToCart() {

@@ -8,10 +8,7 @@ test('@smoke register with valid details succeeds', async ({ page }) => {
   const data = validRegistration();
 
   await registerPage.goto();
-  await registerPage.register(data);
-
-  // Successful registration redirects to /auth/login (verified live).
-  await expect(page).toHaveURL(/auth\/login/);
+  await registerPage.registerExpectingSuccess(data);
 });
 
 // UI-02
@@ -41,8 +38,7 @@ test('@regression register is blocked for an already-registered email', async ({
   const data = validRegistration();
 
   await registerPage.goto();
-  await registerPage.register(data);
-  await expect(page).toHaveURL(/auth\/login/);
+  await registerPage.registerExpectingSuccess(data);
 
   // Re-register with the same email.
   await registerPage.goto();

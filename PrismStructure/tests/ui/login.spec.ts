@@ -12,11 +12,10 @@ test('@smoke login with valid credentials shows the correct profile', async ({ p
   const data = validRegistration();
 
   await registerPage.goto();
-  await registerPage.register(data);
-  await expect(page).toHaveURL(/auth\/login/);
+  await registerPage.registerExpectingSuccess(data);
 
   await loginPage.login(data.email, data.password);
-  await expect(page).toHaveURL(/account/);
+  await expect(page).toHaveURL(/account/, { timeout: 15_000 });
 
   await accountPage.openProfile();
   await expect(accountPage.profileFirstName).toHaveValue(data.firstName);

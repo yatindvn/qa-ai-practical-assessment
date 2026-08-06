@@ -59,6 +59,23 @@ export class RegisterPage {
     await this.submit.click();
   }
 
+  /**
+   * Use this (not the raw register()) whenever the caller is about to act on
+   * the resulting page — e.g. immediately logging in. register() only clicks
+   * submit; it doesn't wait for the redirect to /auth/login to actually land.
+   * A caller that fills the login form right after register() can race that
+   * navigation — getByTestId('email') matches a field on both pages, so a
+   * fill can land on the register page a beat before it navigates away and
+   * be lost, leaving the login form empty when submit is finally clicked.
+   * Reproduced live: see ai-prompts/automation-and-debugging.md, Entry 7.
+   */
+  async registerExpectingSuccess(data: RegistrationData) {
+    await this.register(data);
+    await expect(this.page, 'registration should redirect to /auth/login').toHaveURL(/auth\/login/, {
+      timeout: 15_000,
+    });
+  }
+
   fieldError(text: string): Locator {
     return this.page.getByText(text, { exact: false });
   }

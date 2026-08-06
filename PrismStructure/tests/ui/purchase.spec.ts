@@ -14,9 +14,9 @@ test('@smoke E2E purchase requires Confirm twice before the invoice is generated
   const data = validRegistration();
 
   await registerPage.goto();
-  await registerPage.register(data);
+  await registerPage.registerExpectingSuccess(data);
   await loginPage.login(data.email, data.password);
-  await expect(page).toHaveURL(/account/);
+  await expect(page).toHaveURL(/account/, { timeout: 15_000 });
 
   await productsPage.goto();
   await productsPage.addFirstProductToCart();

@@ -2,8 +2,12 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests',
-  timeout: 30_000,
-  expect: { timeout: 8_000 },
+  // Bumped from 30s/8s after a real run against the live public demo site
+  // showed borderline navigation timing (registration/login redirects) —
+  // see ai-prompts/automation-and-debugging.md, Entry 7. This is a shared,
+  // rate-limited demo backend, not a dedicated test environment.
+  timeout: 45_000,
+  expect: { timeout: 12_000 },
   fullyParallel: false,
   retries: 0,
   workers: 1,

@@ -37,7 +37,7 @@
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
         ],
-        "timeout": 30000
+        "timeout": 45000
       },
       {
         "outputDir": "C:/Users/Yatin Dhawan/assiment/qa-ai-practical-assessment/PrismStructure/test-results",
@@ -53,7 +53,7 @@
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
         ],
-        "timeout": 30000
+        "timeout": 45000
       }
     ],
     "quiet": false,
@@ -103,7 +103,7 @@
           ],
           "tests": [
             {
-              "timeout": 30000,
+              "timeout": 45000,
               "annotations": [],
               "expectedStatus": "passed",
               "projectId": "api",
@@ -113,12 +113,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 936,
+                  "duration": 881,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T18:14:54.232Z",
+                  "startTime": "2026-08-06T04:10:16.670Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -139,7 +139,7 @@
           ],
           "tests": [
             {
-              "timeout": 30000,
+              "timeout": 45000,
               "annotations": [],
               "expectedStatus": "passed",
               "projectId": "api",
@@ -149,12 +149,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1469,
+                  "duration": 1301,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T18:14:55.233Z",
+                  "startTime": "2026-08-06T04:10:17.604Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -175,7 +175,7 @@
           ],
           "tests": [
             {
-              "timeout": 30000,
+              "timeout": 45000,
               "annotations": [],
               "expectedStatus": "passed",
               "projectId": "api",
@@ -185,12 +185,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1414,
+                  "duration": 1385,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T18:14:56.717Z",
+                  "startTime": "2026-08-06T04:10:18.922Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -211,7 +211,7 @@
           ],
           "tests": [
             {
-              "timeout": 30000,
+              "timeout": 45000,
               "annotations": [],
               "expectedStatus": "passed",
               "projectId": "api",
@@ -221,12 +221,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 606,
+                  "duration": 476,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T18:14:58.152Z",
+                  "startTime": "2026-08-06T04:10:20.324Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -255,7 +255,7 @@
           ],
           "tests": [
             {
-              "timeout": 30000,
+              "timeout": 45000,
               "annotations": [],
               "expectedStatus": "passed",
               "projectId": "api",
@@ -265,12 +265,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 4036,
+                  "duration": 3465,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T18:14:58.785Z",
+                  "startTime": "2026-08-06T04:10:20.829Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -291,7 +291,7 @@
           ],
           "tests": [
             {
-              "timeout": 30000,
+              "timeout": 45000,
               "annotations": [],
               "expectedStatus": "passed",
               "projectId": "api",
@@ -301,12 +301,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 4956,
+                  "duration": 4359,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T18:15:02.841Z",
+                  "startTime": "2026-08-06T04:10:24.315Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -327,7 +327,7 @@
           ],
           "tests": [
             {
-              "timeout": 30000,
+              "timeout": 45000,
               "annotations": [],
               "expectedStatus": "passed",
               "projectId": "api",
@@ -337,12 +337,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 4386,
+                  "duration": 4215,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-05T18:15:07.819Z",
+                  "startTime": "2026-08-06T04:10:28.690Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -360,8 +360,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-08-05T18:14:52.880Z",
-    "duration": 19445.298,
+    "startTime": "2026-08-06T04:10:15.578Z",
+    "duration": 17463.461,
     "expected": 7,
     "skipped": 0,
     "unexpected": 0,
