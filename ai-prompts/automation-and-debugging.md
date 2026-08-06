@@ -167,3 +167,23 @@ Root cause: `invoicePayload()` was generating `billing_city`/`billing_state` wit
 - `CheckoutPage.proceedToBillingAsSignedInUser()`: added a click on `proceed-2` (the "Proceed to checkout" confirmation button) between `proceed1` and filling the address fields.
 
 **Validation Notes:** `npx playwright test --list` re-confirmed 7 Core UI / 4 Stretch UI, unchanged. Cannot re-execute here (Entry 4b's browser-launch block is unrelated to and unaffected by this fix). Needs a third run on the unblocked machine — if `login.spec.ts` and `purchase.spec.ts` still fail, the next debugging step should be pulling the accessibility snapshot for the exact `.dropdown-toggle`/`proceed-2` element rather than guessing again.
+
+---
+
+## Entry 10 — Third real UI run: login now passes; both remaining failures traced to a disabled Add to Cart button
+
+**Prompt:**
+> Third run: login.spec.ts fully passes now (Entry 9's fix held). But purchase.spec.ts's two tests still fail. Pull the real error again — don't assume it's the same root cause as before.
+
+**AI Response Summary:** Both failures showed a different error class than Entries 7 and 9 — not "not visible" this time, but **"element is not enabled"**, on the exact same line in both tests:
+```
+waiting for getByTestId('add-to-cart')
+locator resolved to <button disabled id="btn-add-to-cart" data-test="add-to-cart" ...>
+```
+The button exists, is visible, and is simply `disabled`. Given `ProductsPage.firstProductCard` picks `.first()` from `[data-test^="product-0"]` with no regard for stock status, and the catalog on this live public demo backend isn't a fixed fixture (stock levels, and possibly which product sorts first, can differ between runs — this exact test passed on the prior run), the clear read: `.first()` landed on an **out-of-stock product** this time, whose Add to Cart button is permanently disabled — so the test wasn't slow, it was correctly waiting forever for something that was never going to happen.
+
+**Fix:**
+- `ProductsPage.firstProductCard` now filters out any card containing the `out-of-stock` badge (`.filter({ hasNot: page.getByTestId('out-of-stock') })`), so it only ever selects a purchasable product.
+- Added a defensive `expect(addToCart).toBeEnabled()` at the end of `openFirstProduct()` — belt-and-braces so that if this ever happens again for a different reason, the failure is immediate and says "add-to-cart should be enabled," not a 45-second generic timeout with no hint why.
+
+**Validation Notes:** `npx playwright test --list` re-confirmed 7 Core UI tests, unchanged. This is the third distinct root cause found across three real runs on the live public demo site — each one different (a race condition, two missing-step navigation gaps, and now catalog-state dependence) and each one only found by actually executing against the real, shared, non-deterministic backend rather than a fixed test fixture. That's a legitimate cost of testing against a live public demo instead of a dedicated seeded environment, and worth naming as a known characteristic of this suite, not just a string of unrelated bugs.

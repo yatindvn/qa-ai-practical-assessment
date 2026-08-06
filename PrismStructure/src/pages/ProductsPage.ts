@@ -1,4 +1,4 @@
-import { Page, Locator } from '@playwright/test';
+import { Page, Locator, expect } from '@playwright/test';
 
 export class ProductsPage {
   readonly page: Page;
@@ -15,7 +15,16 @@ export class ProductsPage {
 
   constructor(page: Page) {
     this.page = page;
-    this.firstProductCard = page.locator('[data-test^="product-0"]').first();
+    // Excludes out-of-stock cards. This is a shared public demo backend, not
+    // a fixed fixture — which specific product is "first" and whether it's
+    // in stock both vary between runs. A run that happened to land .first()
+    // on an out-of-stock product hung for the full 45s on a disabled
+    // add-to-cart button (real failure, see ai-prompts/automation-and-debugging.md,
+    // Entry 10) rather than failing fast.
+    this.firstProductCard = page
+      .locator('[data-test^="product-0"]')
+      .filter({ hasNot: page.getByTestId('out-of-stock') })
+      .first();
     this.productName = page.getByTestId('product-name');
     this.quantityInput = page.getByTestId('quantity');
     this.increaseQuantity = page.getByTestId('increase-quantity');
@@ -58,6 +67,13 @@ export class ProductsPage {
       await this.page.reload();
       await this.productName.waitFor({ state: 'visible', timeout: 10_000 });
     }
+
+    // Belt-and-braces: even with the out-of-stock filter above, fail fast
+    // with a clear cause here rather than a generic 45s timeout at the
+    // call site if add-to-cart is ever disabled for some other reason.
+    await expect(this.addToCart, 'add-to-cart should be enabled for an in-stock product').toBeEnabled({
+      timeout: 10_000,
+    });
   }
 
   async addFirstProductToCart() {
